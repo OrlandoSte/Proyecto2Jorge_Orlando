@@ -1,73 +1,106 @@
 		var nocturno = false;
+		let ciudBuscada ="Alcañiz";
+		let contenido = document.getElementById("insertarC");
+				
+
+		function buscar(){
+			ciudBuscada = document.getElementById("buscar").value
+			console.log(ciudBuscada)
+			contenido.innerHTML=""
+			cargaJson()
+		}
 
 		async function cargaJson() {
 
-			let url = "https://api.weatherapi.com/v1/forecast.json?key=e802f5714c9e4729848142736242504&q=Alcaniz&days=7&aqi=no&alerts=no";
+			let url = "https://api.weatherapi.com/v1/forecast.json?key=e802f5714c9e4729848142736242504&q="+ciudBuscada+"&days=7&aqi=no&alerts=no";
 			let response = await fetch(url);
 			
 			fetch(url)
         		.then(response => {
-            if (!response.ok) {
-                throw new Error('Error en el fetch' + response.status);
-            }
-            return response.json();
-        })
+				if (!response.ok) {
+					throw new Error('Error en el fetch' + response.status);
+				}
+           		return response.json();
+        		})
+			
 			.then(data => {
 			data.forecast.forecastday.forEach(dia => {
-				console.log(dia.date); // Ejemplo de acceso a la fecha de cada día
-				console.log(dia.day.mintemp_c);
-
+		
 				let diaAc = dia.date;
 				let tempMin = dia.day.mintemp_c;
 				let tempMax = dia.day.maxtemp_c;
 				let hume = dia.day.avghumidity
-
-				let contenido = document.getElementById("infor")
-				let cajas = document.createElement("div")
-				let lista = document.createElement("ul")
+				
+				
+				
+				let cajas = document.getElementById("days-forecast");
 
 				let lineas = document.createElement("li")
-		
+				lineas.className = "card";
+
 				let t3 = document.createElement("h3")
+				t3.className = "textos";
+
 				let t6 = document.createElement("h6")
+				t6.className = "textos";
+
 				let t62 = document.createElement("h6")
+				t62.className = "textos";
+
 				let t63 = document.createElement("h6")
+				t63.className = "textos"
 
 				t3.textContent = "( "+diaAc+" )"
-				t6.textContent = "Temp min: "+tempMin+" ºC"
-				t62.textContent = "Temp max: "+tempMax+" ºC"
+				t6.textContent = "Temp min: "+tempMin+"ºC"
+				t62.textContent = "Temp max: "+tempMax+"ºC"
 				t63.textContent = "Humedad: "+hume+"%"
 
-				contenido.appendChild(cajas);
-				cajas.appendChild(lista);
-				lista.appendChild(lineas);
 				lineas.appendChild(t3);
-				lineas.appendChild(t6);
 				lineas.appendChild(t62);
+				lineas.appendChild(t6);
 				lineas.appendChild(t63);
 
-				lineas.setAttribute("class","card")
-				lista.setAttribute("class","weather-cards")
-				t3.setAttribute("class","textos")
-				t6.setAttribute("class","textos")
-				t62.setAttribute("class","textos")
-				t63.setAttribute("class","textos")
-				contenido.setAttribute("class","weather-data")
-				cajas.setAttribute("class","days-forecast")
-				
+				contenido.appendChild(lineas);
 
-
-				
 			});
 
-			console.log(data.location.name)
+			let infoAct = document.getElementById("infor")
+			infoAct.innerHTML=""
 
+			let ciudadA = data.location.name
+			let fechaA = data.current.last_updated
+			let tempAct = data.current.temp_c
+			let viento = data.current.wind_kph
+			let humeA = data.current.humidity
+
+			let t2 = document.createElement("h2");
+			t2.textContent = ciudadA + " (" + fechaA + ")";
+			t2.id = "ciud"
+		
+			let h61 = document.createElement("h6");
+			h61.textContent = "Temperatura: "+tempAct + "°C";
+			h61.className = "textos"
 			
+			let h62 = document.createElement("h6");
+			h62.textContent = "Viento: "+viento + " Km/h";
+			h62.className = "textos"
+
+			let h63 = document.createElement("h6");
+			h63.textContent ="Humedad: "+ humeA + "%";
+			h63.className = "textos"
+		
 			
+			infoAct.appendChild(t2);
+			infoAct.appendChild(h61);
+			infoAct.appendChild(h62);
+			infoAct.appendChild(h63);
+
 		});
 	}
-		 window.onload = cargaJson();
-		
+
+	document.addEventListener("DOMContentLoaded", function() {
+		cargaJson();
+	})
 
 		function cambiarTema() {
 

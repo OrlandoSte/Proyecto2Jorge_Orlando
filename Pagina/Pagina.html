@@ -8,20 +8,21 @@
     <h1 id="titulo">El Tiempo</h1>
     <div class="container">
       <div class="weather-input">
+
+        <input id="buscar" type="text" placeholder="Introduce una ciudad...">
+        <button class="search-btn" onclick="buscar()">Buscar Ciudad</button><br><br>
+
         <button class="search-btn" onclick="cambiarTema()">Cambiar Tema</button>
       </div>
-      <div id="infor" class="weather-data" >
+      <div  class="weather-data" >
         <div class="current-weather">
-          <div class="details">
-            <h2 id="ciud" >Alcaniz( 12-5-2024 )</h2>
-            <h6 class="textos">Temperatura: 18.6°C</h6>
-            <h6 class="textos">Viento: 26.6 Km/h</h6>
-            <h6 class="textos">Humedad: 74%</h6>
+          <div  id="infor" class="details">
           </div>
         </div>
-        <div class="days-forecast">
+        <div id="days-forecast" class="days-forecast">
           <h2 class="textos">Pronostico de 7 dias</h2>
-          
+          <ul class="weather-cards" id="insertarC">
+          </ul>
         </div>
       </div>
     </div>
