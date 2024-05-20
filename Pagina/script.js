@@ -1,8 +1,8 @@
 		var nocturno = false;
-		let ciudBuscada ="Alcañiz";
+		let ciudBuscada ="Alcañiz";								//Declaracion de variables globales para poder usrse en cualquier lado
 		let contenido = document.getElementById("insertarC");
 				
-
+		/** Creacion de la funcion buscar para poder cambiar la ciudad de la que se sacan los datos */
 		function buscar(){
 			ciudBuscada = document.getElementById("buscar").value
 			console.log(ciudBuscada)
@@ -10,6 +10,8 @@
 			cargaJson()
 		}
 
+
+		/** Funcion que se encarga de la conexion con el json y la de añadir los elementos necesarios al HTML */
 		async function cargaJson() {
 
 			let url = "https://api.weatherapi.com/v1/forecast.json?key=e802f5714c9e4729848142736242504&q="+ciudBuscada+"&days=7&aqi=no&alerts=no";
@@ -98,10 +100,14 @@
 		});
 	}
 
+	/** Un evento que se encarga de ecuchar y llamar la funcion de cargaJson() al acabar la misma */
+
 	document.addEventListener("DOMContentLoaded", function() {
 		cargaJson();
 	})
 
+
+	/** Funcion encargada de ir cambiando los estilos al darle el boton a la que esta asignado con un "onclick="cambiarTema()" */
 		function cambiarTema() {
 
 		    const body = document.getElementById("body")
