@@ -1,5 +1,5 @@
-		var nocturno = false;
-		let ciudBuscada ="Alcañiz";								//Declaracion de variables globales para poder usrse en cualquier lado
+		let nocturno = false;
+		let ciudBuscada ="Alcañiz";		//Declaracion de variables globales para poder usarse en cualquier lado
 		let contenido = document.getElementById("insertarC");
 				
 		/** Creacion de la funcion buscar para poder cambiar la ciudad de la que se sacan los datos */
@@ -13,8 +13,11 @@
 
 		/** Funcion que se encarga de la conexion con el json y la de añadir los elementos necesarios al HTML */
 		async function cargaJson() {
-
+			
+			// Declaracion del url de la api
 			let url = "https://api.weatherapi.com/v1/forecast.json?key=e802f5714c9e4729848142736242504&q="+ciudBuscada+"&days=7&aqi=no&alerts=no";
+			
+			//Declaro una variable para la respuesta que me devuelva al conectarse a la API
 			let response = await fetch(url);
 			
 			fetch(url)
@@ -25,16 +28,19 @@
            		return response.json();
         		})
 			
+			//Aqui se declara un bucle con un "forEach" que lo hara mientras tenga datos en dia
+			
 			.then(data => {
 			data.forecast.forecastday.forEach(dia => {
 		
+			// Se declara variables para cada dato que vamos a guardar
 				let diaAc = dia.date;
 				let tempMin = dia.day.mintemp_c;
 				let tempMax = dia.day.maxtemp_c;
 				let hume = dia.day.avghumidity
 				
-				
-				
+			
+			// Se declara los elementos que se van a crear para ir guardando los datos	
 				let cajas = document.getElementById("days-forecast");
 
 				let lineas = document.createElement("li")
@@ -52,29 +58,35 @@
 				let t63 = document.createElement("h6")
 				t63.className = "textos"
 
+			// y aqui vamos metiendo los datos en los elementos que hemos creado arriba
 				t3.textContent = "( "+diaAc+" )"
 				t6.textContent = "Temp min: "+tempMin+"ºC"
 				t62.textContent = "Temp max: "+tempMax+"ºC"
 				t63.textContent = "Humedad: "+hume+"%"
-
+			
+			// y los vamos agregando a la lista 
 				lineas.appendChild(t3);
 				lineas.appendChild(t62);
 				lineas.appendChild(t6);
 				lineas.appendChild(t63);
-
+			
+			// finalmente se guardan las lineas creadas en el div corespondiente que hemos creado
 				contenido.appendChild(lineas);
 
 			});
-
+			
+			// Aqui creamos el elemento en el que se guardara los elementos que saquemos el JSON
 			let infoAct = document.getElementById("infor")
 			infoAct.innerHTML=""
-
+			
+			// Aqui se hace los mismo de crear las variables que ser utilizadas para guardas los datos
 			let ciudadA = data.location.name
 			let fechaA = data.current.last_updated
 			let tempAct = data.current.temp_c
 			let viento = data.current.wind_kph
 			let humeA = data.current.humidity
 
+			// Aqui voy declarando los elementos del HTML que se generaran y les paso la informacion del JSON
 			let t2 = document.createElement("h2");
 			t2.textContent = ciudadA + " (" + fechaA + ")";
 			t2.id = "ciud"
@@ -91,7 +103,7 @@
 			h63.textContent ="Humedad: "+ humeA + "%";
 			h63.className = "textos"
 		
-			
+			// Finalmente voy agregando los datos al DIV que guarda todos los datos.
 			infoAct.appendChild(t2);
 			infoAct.appendChild(h61);
 			infoAct.appendChild(h62);
@@ -109,7 +121,7 @@
 
 	/** Funcion encargada de ir cambiando los estilos al darle el boton a la que esta asignado con un "onclick="cambiarTema()" */
 		function cambiarTema() {
-
+		
 		    const body = document.getElementById("body")
 
 		    if (nocturno) {
